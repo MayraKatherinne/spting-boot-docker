@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Resultados - Saber Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Roboto:wght@400&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+            min-height: 100vh;
+            font-family: 'Roboto', sans-serif;
+            color: #4b4b4b;
+        }
+
+        .navbar {
+            background: #1a1a1a;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .navbar-brand {
+            color: #f8f1e9;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            color: #d4af37;
+        }
+
+        .nav-link {
+            color: #f8f1e9;
+            font-size: 1rem;
+            text-decoration: none;
+            margin-left: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #d4af37;
+        }
+
+        .nav-link.active {
+            color: #d4af37;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            background: #1a1a1a;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+        }
+
+        .dropdown-item {
+            color: #f8f1e9;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(212, 175, 55, 0.2);
+            color: #f8f1e9;
+        }
+
+        .container {
+            padding: 2rem;
+        }
+
+        .card {
+            background: #f8f1e9;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, #d4af37, #f8f1e9);
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: 500;
+            color: #1a1a1a;
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .table th {
+            background: #1a1a1a;
+            color: #f8f1e9;
+            font-weight: 500;
+            font-family: 'Playfair Display', serif;
+            padding: 1rem;
+            text-align: left;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            transition: background 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .table tr:hover td {
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .btn-custom {
+            display: inline-flex;
+            align-items: center;
+            background: #1a1a1a;
+            color: #f8f1e9;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-family: 'Playfair Display', serif;
+            text-decoration: none;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-custom:hover {
+            background: #333333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            color: #f8f1e9;
+        }
+
+        .btn-custom i {
+            margin-right: 0.5rem;
+        }
+
+        .btn-edit {
+            background: #1a1a1a;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-delete {
+            background: #1a1a1a;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .navbar-toggler {
+            border: none;
+            color: #f8f1e9;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(248, 241, 233, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de Navegación -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Informes Saber Pro</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/estudiantes">Estudiantes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/resultados-pruebas">Resultados</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                            Reportes
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/reportes/todos">Informe Completo</a></li>
+                            <li><a class="dropdown-item" href="/reportes/ranking">Ranking</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container">
+        <div class="card">
+            <h2 class="title">Lista de Resultados</h2>
+            <a th:href="@{/resultados-pruebas/nuevo}" class="btn-custom mb-4">
+                <i class="fas fa-plus-circle"></i>Nuevo Resultado
+            </a>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Estudiante</th>
+                            <th>Número Registro</th>
+                            <th>Puntaje</th>
+                            <th>Nivel Saber Pro</th>
+                            <th>Saber Pro Media Nacional >125</th>
+                            <th>Comunicación Escrita</th>
+                            <th>Comunicación Escrita Nivel</th>
+                            <th>Razonamiento Cuantitativo</th>
+                            <th>Razonamiento Cuantitativo Nivel</th>
+                            <th>Lectura Crítica</th>
+                            <th>Lectura Crítica Nivel</th>
+                            <th>Competencias Ciudadanas</th>
+                            <th>Competencias Ciudadanas Nivel</th>
+                            <th>Inglés</th>
+                            <th>Inglés Nivel</th>
+                            <th>Formulación de Proyectos</th>
+                            <th>Formulación de Proyectos Nivel</th>
+                            <th>Pensamiento Científico</th>
+                            <th>Pensamiento Científico Nivel</th>
+                            <th>Diseño de Software</th>
+                            <th>Diseño de Software Nivel</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="resultado : ${resultados}">
+                            <td th:text="${resultado.id}"></td>
+                            <td th:text="${estudiantes[resultado.idEstudiante]?.primerNombre} + ' ' + ${estudiantes[resultado.idEstudiante]?.primerApellido} ?: 'Estudiante no encontrado'"></td>
+                            <td th:text="${resultado.numeroRegistro}"></td>
+                            <td th:text="${resultado.puntaje}"></td>
+                            <td th:text="${resultado.nivelSaberPro}"></td>
+                            <td th:text="${resultado.saberProMediaNacional}"></td>
+                            <td th:text="${resultado.comunicacionEscrita}"></td>
+                            <td th:text="${resultado.comunicacionEscritaNivel}"></td>
+                            <td th:text="${resultado.razonamientoCuantitativo}"></td>
+                            <td th:text="${resultado.razonamientoCuantitativoNivel}"></td>
+                            <td th:text="${resultado.lecturaCritica}"></td>
+                            <td th:text="${resultado.lecturaCriticaNivel}"></td>
+                            <td th:text="${resultado.competenciasCiudadanas}"></td>
+                            <td th:text="${resultado.competenciasCiudadanasNivel}"></td>
+                            <td th:text="${resultado.ingles}"></td>
+                            <td th:text="${resultado.inglesNivel}"></td>
+                            <td th:text="${resultado.formulacionProyectos}"></td>
+                            <td th:text="${resultado.formulacionProyectosNivel}"></td>
+                            <td th:text="${resultado.pensamientoCientifico}"></td>
+                            <td th:text="${resultado.pensamientoCientificoNivel}"></td>
+                            <td th:text="${resultado.disenoSoftware}"></td>
+                            <td th:text="${resultado.disenoSoftwareNivel}"></td>
+                            <td>
+                                <a th:href="@{/resultados-pruebas/editar/{id}(id=${resultado.id})}" class="btn btn-edit btn-sm me-2">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a th:href="@{/resultados-pruebas/eliminar/{id}(id=${resultado.id})}" class="btn btn-delete btn-sm"
+                                   onclick="return confirm('¿Estás seguro de eliminar este resultado?')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Saber Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Roboto:wght@400&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .login-container {
+            background: #f8f1e9;
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, #d4af37, #f8f1e9);
+        }
+
+        .input-field {
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            background: #ffffff;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+            outline: none;
+        }
+
+        .login-btn {
+            background: #1a1a1a;
+            color: #f8f1e9;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-family: 'Playfair Display', serif;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .login-btn:hover {
+            background: #333333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: 500;
+            color: #1a1a1a;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .label {
+            color: #4b4b4b;
+            font-weight: 400;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h3 class="title text-center mb-8">Iniciar Sesión - Saber Pro</h3>
+        <form method="post" action="/login">
+            <div class="mb-6">
+                <label for="correo" class="label block mb-2">Correo Electrónico</label>
+                <input type="email" class="input-field w-full" id="correo" name="correo" required>
+            </div>
+            <div class="mb-8">
+                <label for="contrasena" class="label block mb-2">Contraseña</label>
+                <input type="password" class="input-field w-full" id="contrasena" name="contrasena" required>
+            </div>
+            <div>
+                <button type="submit" class="login-btn w-full">Ingresar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

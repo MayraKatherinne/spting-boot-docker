@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Estudiante - Saber Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Roboto:wght@400&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+            min-height: 100vh;
+            font-family: 'Roboto', sans-serif;
+            color: #4b4b4b;
+        }
+
+        .navbar {
+            background: #1a1a1a;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .navbar-brand {
+            color: #f8f1e9;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            color: #d4af37;
+        }
+
+        .nav-link {
+            color: #f8f1e9;
+            font-size: 1rem;
+            text-decoration: none;
+            margin-left: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #d4af37;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            background: #1a1a1a;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+        }
+
+        .dropdown-item {
+            color: #f8f1e9;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(212, 175, 55, 0.2);
+            color: #f8f1e9;
+        }
+
+        .container {
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 4rem);
+        }
+
+        .card {
+            background: #f8f1e9;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, #d4af37, #f8f1e9);
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: 500;
+            color: #1a1a1a;
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            color: #4b4b4b;
+            font-weight: 400;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            background: #ffffff;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            color: #4b4b4b;
+        }
+
+        .form-control:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+            outline: none;
+        }
+
+        .btn-custom {
+            display: inline-flex;
+            align-items: center;
+            background: #1a1a1a;
+            color: #f8f1e9;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-family: 'Playfair Display', serif;
+            text-decoration: none;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            min-width: 120px;
+            font-size: 1rem;
+        }
+
+        .btn-custom:hover {
+            background: #333333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            color: #f8f1e9;
+        }
+
+        .btn-cancel {
+            background: #6b7280;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #f8f1e9;
+            padding: 0.75rem 2rem;
+            min-width: 120px;
+            font-size: 1rem;
+        }
+
+        .btn-custom i, .btn-cancel i {
+            margin-right: 0.5rem;
+        }
+
+        .navbar-toggler {
+            border: none;
+            color: #f8f1e9;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(248, 241, 233, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de Navegación -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Informes Saber Pro</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/estudiantes">Estudiantes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/resultados-pruebas">Resultados</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                            Reportes
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/reportes/todos">Informe Completo</a></li>
+                            <li><a class="dropdown-item" href="/reportes/ranking">Ranking</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container">
+        <div class="card">
+            <h2 class="title" th:text="${estudiante.id != null} ? 'Editar Estudiante' : 'Nuevo Estudiante'"></h2>
+            <form th:action="@{/estudiantes/guardar}" th:object="${estudiante}" method="post">
+                <!-- Solo incluir el campo ID si existe (es decir, en modo edición) -->
+                <div th:if="${estudiante.id != null}">
+                    <input type="hidden" th:field="*{id}" />
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="mb-4">
+                        <label for="tipoDocumento" class="form-label block mb-2">Tipo Documento</label>
+                        <input type="text" class="form-control" id="tipoDocumento" th:field="*{tipoDocumento}" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="numeroDocumento" class="form-label block mb-2">Número Documento</label>
+                        <input type="text" class="form-control" id="numeroDocumento" th:field="*{numeroDocumento}" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="primerApellido" class="form-label block mb-2">Primer Apellido</label>
+                        <input type="text" class="form-control" id="primerApellido" th:field="*{primerApellido}" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="segundoApellido" class="form-label block mb-2">Segundo Apellido</label>
+                        <input type="text" class="form-control" id="segundoApellido" th:field="*{segundoApellido}">
+                    </div>
+                    <div class="mb-4">
+                        <label for="primerNombre" class="form-label block mb-2">Primer Nombre</label>
+                        <input type="text" class="form-control" id="primerNombre" th:field="*{primerNombre}" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="segundoNombre" class="form-label block mb-2">Segundo Nombre</label>
+                        <input type="text" class="form-control" id="segundoNombre" th:field="*{segundoNombre}">
+                    </div>
+                    <div class="mb-4">
+                        <label for="correoElectronico" class="form-label block mb-2">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="correoElectronico" th:field="*{correoElectronico}" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="numeroTelefono" class="form-label block mb-2">Número Telefónico</label>
+                        <input type="text" class="form-control" id="numeroTelefono" th:field="*{numeroTelefono}" required>
+                    </div>
+                </div>
+                <div class="text-center mt-6">
+                    <button type="submit" class="btn-custom me-2">
+                        <i class="fas fa-save"></i>Guardar
+                    </button>
+                    <a th:href="@{/estudiantes}" class="btn btn-cancel">
+                        <i class="fas fa-times"></i>Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel del Coordinador - Saber Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Roboto:wght@400&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+            min-height: 100vh;
+            font-family: 'Roboto', sans-serif;
+            color: #4b4b4b;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background: #1a1a1a;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .navbar-brand {
+            color: #f8f1e9;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            color: #d4af37;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .card {
+            background: #f8f1e9;
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            text-align: center;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, #d4af37, #f8f1e9);
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: 500;
+            color: #1a1a1a;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 2rem;
+        }
+
+        .btn-custom {
+            display: inline-flex;
+            align-items: center;
+            background: #1a1a1a;
+            color: #f8f1e9;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-family: 'Playfair Display', serif;
+            text-decoration: none;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            margin: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .btn-custom:hover {
+            background: #333333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            color: #f8f1e9;
+        }
+
+        .btn-custom i {
+            margin-right: 0.5rem;
+        }
+
+        footer {
+            background: #1a1a1a;
+            padding: 1.5rem;
+            text-align: center;
+            color: #f8f1e9;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de Navegación -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Informes Saber Pro</a>
+        </div>
+    </nav>
+
+    <!-- Contenido -->
+    <div class="container">
+        <div class="card">
+            <h1 class="title">Bienvenido, <span th:text="${usuario}">Coordinador</span></h1>
+            <a href="/estudiantes" class="btn-custom"><i class="fas fa-users"></i>Gestionar Estudiantes</a>
+            <a href="/reportes/todos" class="btn-custom"><i class="fas fa-file-alt"></i>Ver todos los resultados</a>
+            <a href="/reportes/ranking" class="btn-custom"><i class="fas fa-chart-bar"></i>Ver ranking</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Informes Saber Pro. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
