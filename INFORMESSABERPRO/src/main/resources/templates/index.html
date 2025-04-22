@@ -1,148 +1,215 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informes Saber Pro - Inicio</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #e0e0e0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            background: #000000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Fondo dinámico con partículas animadas */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, #000000 70%);
+            z-index: 0;
+        }
+
+        .background::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/%3E%3C/svg%3E');
+            background-size: 50px 50px;
+            animation: float 20s infinite linear;
+            opacity: 0.3;
+        }
+
+        /* Animación de partículas flotantes */
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(50px, 50px) rotate(180deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        /* Contenedor principal */
+        .container {
+            position: relative;
+            z-index: 2;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 3rem;
         }
-        .navbar {
-            background: #0f0f1b !important;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-        .navbar-brand, .nav-link {
-            color: #ff6b6b !important;
-            transition: color 0.3s ease;
-        }
-        .nav-link:hover {
-            color: #e94560 !important;
-        }
-        .dropdown-menu {
-            background: #0f0f1b;
-            border: 1px solid #ff6b6b;
-        }
-        .dropdown-item {
-            color: #e0e0e0;
-        }
-        .dropdown-item:hover {
-            background: #ff6b6b;
-            color: #0f0f1b;
-        }
-        .container {
-            margin-top: 50px;
-            flex: 1;
-        }
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            border: none;
+
+        /* Estilo de los botones */
+        .btn {
+            position: relative;
+            padding: 1.5rem 3rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #ffffff;
+            background: linear-gradient(145deg, #1a1a1a, #000000);
+            border: 3px solid transparent;
             border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), inset 0 -3px 10px rgba(255, 255, 255, 0.2);
+            transition: all 0.5s ease;
+            overflow: hidden;
         }
-        .btn-custom {
-            background: linear-gradient(45deg, #e94560, #ff6b6b);
-            border: none;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 1.2rem;
-            transition: transform 0.2s ease, box-shadow 0.3s ease;
-            margin: 10px;
-            display: inline-block;
+
+        .btn i {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
         }
-        .btn-custom:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
-            color: white;
+
+        /* Efecto 3D y animación al pasar el cursor */
+        .btn:hover {
+            background: linear-gradient(145deg, #ffffff, #e0e0e0);
+            color: #000000;
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3), inset 0 -3px 10px rgba(0, 0, 0, 0.2);
+            border-color: #ffffff;
         }
-        .welcome-section {
-            text-align: center;
-            margin-bottom: 40px;
+
+        .btn:hover i {
+            transform: rotate(360deg);
         }
-        .welcome-section h1 {
-            color: #ff6b6b;
-            font-size: 3rem;
-            margin-bottom: 20px;
+
+        /* Efecto de brillo dinámico */
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            transition: 0.7s;
         }
-        .welcome-section p {
-            color: #b0b0b0;
-            font-size: 1.2rem;
+
+        .btn:hover::before {
+            left: 100%;
         }
-        footer {
-            background: #0f0f1b;
-            padding: 20px 0;
-            text-align: center;
-            color: #ff6b6b;
-            margin-top: auto;
+
+        /* Efecto de luz pulsante en los botones */
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 70%);
+            opacity: 0;
+            animation: pulse 5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 0.3; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+
+        /* Estilo específico para cada botón */
+        .btn-login {
+            animation: floatIn 1s ease forwards;
+        }
+
+        .btn-coordinadores {
+            animation: floatIn 1s ease 0.3s forwards;
+        }
+
+        @keyframes floatIn {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Líneas decorativas animadas */
+        .container::before,
+        .container::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: -1;
+        }
+
+        .container::before {
+            width: 2px;
+            height: 150px;
+            top: -150px;
+            animation: dropLine 2s infinite;
+        }
+
+        .container::after {
+            height: 2px;
+            width: 150px;
+            left: -150px;
+            animation: slideLine 2s infinite;
+        }
+
+        @keyframes dropLine {
+            0% { transform: translateY(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(300px); opacity: 0; }
+        }
+
+        @keyframes slideLine {
+            0% { transform: translateX(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(300px); opacity: 0; }
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .btn {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 2rem;
+                gap: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Barra de Navegación -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">Informes Saber Pro</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/estudiantes">Estudiantes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/resultados">Resultados</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Reportes
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/reportes/todos">Informe Completo</a></li>
-                            <li><a class="dropdown-item" href="/reportes/ranking">Ranking</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Contenido Principal -->
+    <div class="background"></div>
     <div class="container">
-        <div class="welcome-section">
-            <h1>Bienvenido a Informes Saber Pro</h1>
-            <p>Administra estudiantes, resultados de pruebas y genera reportes de manera eficiente.</p>
-        </div>
-        <div class="card p-5">
-            <div class="text-center">
-                <a href="/estudiantes" class="btn btn-custom">
-                    <i class="fas fa-users me-2"></i>Gestionar Estudiantes
-                </a>
-                <a href="/resultados-pruebas" class="btn btn-custom">
-                    <i class="fas fa-file-alt me-2"></i>Gestionar Resultados
-                </a>
-                <a href="/reportes/todos" class="btn btn-custom">
-                    <i class="fas fa-chart-bar me-2"></i>Ver Reportes
-                </a>
-            </div>
-        </div>
+        <a href="/login" class="btn btn-login">
+            <i class="fas fa-user"></i> Iniciar Sesión Estudiantes
+        </a>
+        <a href="/logincoordinadores" class="btn btn-coordinadores">
+            <i class="fas fa-user-tie"></i> Iniciar Sesión Coordinadores
+        </a>
     </div>
-
-    <!-- Pie de Página -->
-    <footer>
-        <p>&copy; 2025 Informes Saber Pro. Todos los derechos reservados.</p>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
